@@ -10,7 +10,6 @@ on init
     mkdir /efs
     mkdir /system
     mkdir /cache
-    mkdir /sdcard
     mkdir /misc
     mkdir /data
     mkdir /recovery
