@@ -17,6 +17,11 @@ on init
     mkdir /boot
     mkdir /prebuilt
     mkdir /sd-ext
+# create mountpoints
+    mkdir /mnt 0775 root system
+    mkdir /mnt/sdcard 0000 system system
+# Backwards Compat - XXX: Going away in G*
+    symlink /mnt/sdcard /sdcard
     mount /tmp /tmp tmpfs
     symlink /system/etc /etc
 
@@ -38,6 +43,12 @@ service recovery /sbin/recovery
 
 service adbd /sbin/adbd recovery
     disabled
+
+service vold /sbin/vold
+    socket vold stream 0660 root mount
+    socket usbstorage stream 0660 root mount
+    ioprio be 2
+    socket enc_report stream 0660 root mount
 
 on property:persist.service.adb.enable=1
     start adbd
